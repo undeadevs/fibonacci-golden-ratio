@@ -88,7 +88,7 @@ end
 
 render(
     the_video;
-    pathname="fibonacci.mp4",
+    pathname="fibonacci.gif",
     # framerate=50,
     # liveview=true,
 )
