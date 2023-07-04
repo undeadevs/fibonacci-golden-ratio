@@ -4,27 +4,27 @@ function ground(args...)
     background("white") # canvas background
     sethue("black") # pen color
 end
-function part(p=O, r=25, sa=0, ea=2pi, color="black")
+function part(p=O, r=25, start_angle=0, end_angle=2pi, color="black")
     sethue(color)
     setline(2)
-    arc(p, r, sa, ea)
+    arc(p, r, start_angle, end_angle)
     strokepath()
     sethue(color)
     rect_x = p.x
     rect_y = p.y
-    eaa = round(ea % 2pi; digits=2)
-    if eaa == 3.14
+    rounded_angle = round(end_angle % 2pi; digits=2)
+    if rounded_angle == 3.14
         rect_x = rect_x - r
-    elseif eaa == 4.71
+    elseif rounded_angle == 4.71
         rect_x = rect_x - r
         rect_y = rect_y - r
-    elseif eaa == 0
+    elseif rounded_angle == 0
         rect_y = rect_y - r
     end
     rect(rect_x, rect_y, r, r, :stroke)
     return p
 end
-myvideo = Video(1000, 1000)
+the_video = Video(1000, 1000)
 Background(1:100, ground)
 base_r = 1
 n = UInt64(50)
@@ -59,16 +59,16 @@ computed_fib = fib(n)
 
 x = 0
 y = 0
-sm = 1
+sign_multiplier = 1
 for i in 1:n
-    global x, y, sm
+    global x, y, sign_multiplier
     arc_color = ""
     if i % 2 == 0
-        y = y + (sm * Int64(computed_fib[max(1, i - 1)]))
+        y = y + (sign_multiplier * Int64(computed_fib[max(1, i - 1)]))
         arc_color = "blue"
     else
-        sm = sm * -1
-        x = x + (sm * Int64(computed_fib[max(1, i - 1)]))
+        sign_mult = sign_multiplier * -1
+        x = x + (sign_mult * Int64(computed_fib[max(1, i - 1)]))
         arc_color = "red"
     end
 
@@ -79,15 +79,15 @@ for i in 1:n
                 scaled_r = base_r/frame
                 arc_p = Point(scaled_r * temp_x, scaled_r * temp_y)
                 arc_r::Float64 = scaled_r * computed_fib[i+1]
-                arc_sa = (i - 1) * (pi / 2)
-                arc_ea = (i) * (pi / 2)
-                return part(arc_p, arc_r, arc_sa, arc_ea, arc_color)
+                arc_start_angle = (i - 1) * (pi / 2)
+                arc_end_angle = (i) * (pi / 2)
+                return part(arc_p, arc_r, arc_start_angle, arc_end_angle, arc_color)
             end
         end, O)
 end
 
 render(
-    myvideo;
+    the_video;
     pathname="fibonacci.mp4",
     # framerate=50,
     # liveview=true,
