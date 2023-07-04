@@ -59,15 +59,15 @@ computed_fib = fib(n)
 
 x = 0
 y = 0
-sign_multiplier = 1
+sign_mult = 1
 for i in 1:n
-    global x, y, sign_multiplier
+    global x, y, sign_mult
     arc_color = ""
     if i % 2 == 0
-        y = y + (sign_multiplier * Int64(computed_fib[max(1, i - 1)]))
+        y = y + (sign_mult * Int64(computed_fib[max(1, i - 1)]))
         arc_color = "blue"
     else
-        sign_mult = sign_multiplier * -1
+        sign_mult = sign_mult * -1
         x = x + (sign_mult * Int64(computed_fib[max(1, i - 1)]))
         arc_color = "red"
     end
